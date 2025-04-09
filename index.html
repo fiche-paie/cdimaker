@@ -35,7 +35,7 @@
             margin-bottom: 12px;
         }
         .info-box {
-            background-color: var(--light-bg);
+            background-color: white;
             border-radius: 4px;
             padding: 6px;
             border: 1px solid var(--secondary-color);
@@ -154,43 +154,43 @@
                     
                     // Encadrés
                     const boxHeight = 38;
-                    const boxWidth = (contentWidth - 10) / 2;
+                    const boxWidth = (contentWidth - 20) / 2; // Réduction de la largeur
                     
-                    // Entreprise (gauche)
-                    doc.setFillColor(235, 248, 255);
-                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    // Entreprise (gauche) - Marge identique à droite
+                    doc.setFillColor(255, 255, 255); // Fond blanc
+                    doc.roundedRect(margin + 5, yPos, boxWidth, boxHeight, 3, 3, 'F');
                     doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
-                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3);
+                    doc.roundedRect(margin + 5, yPos, boxWidth, boxHeight, 3, 3);
                     
                     doc.setFontSize(9);
                     doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-                    doc.text("ENTREPRISE", margin + 8, yPos + 7);
+                    doc.text("ENTREPRISE", margin + 10, yPos + 7);
                     
                     doc.setFontSize(8);
                     doc.setTextColor(0, 0, 0);
-                    doc.text(document.getElementById('entrepriseNom').value, margin + 8, yPos + 12);
-                    doc.text(document.getElementById('entrepriseAdresse').value, margin + 8, yPos + 16);
-                    doc.text(`SIRET: ${document.getElementById('entrepriseSiret').value}`, margin + 8, yPos + 20);
-                    doc.text(`Représenté par: ${document.getElementById('representant').value}`, margin + 8, yPos + 24);
-                    doc.text(`Fonction: ${document.getElementById('fonctionRepresentant').value}`, margin + 8, yPos + 28);
+                    doc.text(document.getElementById('entrepriseNom').value, margin + 10, yPos + 12);
+                    doc.text(document.getElementById('entrepriseAdresse').value, margin + 10, yPos + 16);
+                    doc.text(`SIRET: ${document.getElementById('entrepriseSiret').value}`, margin + 10, yPos + 20);
+                    doc.text(`Représenté par: ${document.getElementById('representant').value}`, margin + 10, yPos + 24);
+                    doc.text(`Fonction: ${document.getElementById('fonctionRepresentant').value}`, margin + 10, yPos + 28);
                     
-                    // Salarié (droite)
-                    doc.setFillColor(235, 248, 255);
-                    doc.roundedRect(margin + 8 + boxWidth, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    // Salarié (droite) - Marge identique à gauche
+                    doc.setFillColor(255, 255, 255); // Fond blanc
+                    doc.roundedRect(margin + 10 + boxWidth, yPos, boxWidth, boxHeight, 3, 3, 'F');
                     doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
-                    doc.roundedRect(margin + 8 + boxWidth, yPos, boxWidth, boxHeight, 3, 3);
+                    doc.roundedRect(margin + 10 + boxWidth, yPos, boxWidth, boxHeight, 3, 3);
                     
                     doc.setFontSize(9);
                     doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-                    doc.text("SALARIÉ", margin + 13 + boxWidth, yPos + 7);
+                    doc.text("SALARIÉ", margin + 15 + boxWidth, yPos + 7);
                     
                     doc.setFontSize(8);
                     doc.setTextColor(0, 0, 0);
-                    doc.text(document.getElementById('salarieNom').value, margin + 13 + boxWidth, yPos + 12);
-                    doc.text(document.getElementById('salarieAdresse').value, margin + 13 + boxWidth, yPos + 16);
-                    doc.text(`Né(e) le: ${document.getElementById('dateNaissance').value}`, margin + 13 + boxWidth, yPos + 20);
-                    doc.text(`Lieu: ${document.getElementById('lieuNaissance').value}`, margin + 13 + boxWidth, yPos + 24);
-                    doc.text(`N° SS: ${document.getElementById('numeroSecu').value}`, margin + 13 + boxWidth, yPos + 28);
+                    doc.text(document.getElementById('salarieNom').value, margin + 15 + boxWidth, yPos + 12);
+                    doc.text(document.getElementById('salarieAdresse').value, margin + 15 + boxWidth, yPos + 16);
+                    doc.text(`Né(e) le: ${document.getElementById('dateNaissance').value}`, margin + 15 + boxWidth, yPos + 20);
+                    doc.text(`Lieu: ${document.getElementById('lieuNaissance').value}`, margin + 15 + boxWidth, yPos + 24);
+                    doc.text(`N° SS: ${document.getElementById('numeroSecu').value}`, margin + 15 + boxWidth, yPos + 28);
                     
                     yPos += boxHeight + 12;
                     
@@ -210,8 +210,7 @@
                         {
                             titre: "ARTICLE 2 - RÉMUNÉRATION",
                             contenu: [
-                                `Le salarié percevra une rémunération brute mensuelle de :`,
-                                `${document.getElementById('salaire').value}`,
+                                `Le salarié percevra une rémunération brute mensuelle de : ${document.getElementById('salaire').value}`,
                                 `Cette rémunération pourra être révisée annuellement en fonction :`,
                                 `- De l'évolution de la situation économique de l'entreprise`,
                                 `- Des performances du salarié`,
@@ -221,8 +220,7 @@
                         {
                             titre: "ARTICLE 3 - DURÉE ET PÉRIODE D'ESSAI",
                             contenu: [
-                                `Le présent contrat est conclu pour une durée indéterminée à compter du :`,
-                                `${document.getElementById('dateEntree').value}`,
+                                `Le présent contrat est conclu pour une durée indéterminée à compter du : ${document.getElementById('dateEntree').value}`,
                                 `Période d'essai : ${document.getElementById('periodeEssai').value}`,
                                 `Pendant cette période, chaque partie pourra rompre le contrat :`,
                                 `- Sans préavis`,
@@ -233,19 +231,15 @@
                         {
                             titre: "ARTICLE 4 - HORAIRES ET LIEU",
                             contenu: [
-                                `Horaires de travail :`,
-                                `${document.getElementById('horaires').value}`,
-                                `Lieu de travail principal :`,
-                                `${document.getElementById('lieuTravail').value}`,
+                                `Horaires de travail : ${document.getElementById('horaires').value}`,
+                                `Lieu de travail principal : ${document.getElementById('lieuTravail').value}`,
                                 `Des déplacements ponctuels pourront être demandés dans le cadre des fonctions.`
                             ]
                         },
                         {
                             titre: "ARTICLE 5 - CLAUSES SPÉCIFIQUES",
-                                   contenu: [
-
-                         `${document.getElementById('nonConcurrence').value}`,
-                               
+                            contenu: [
+                                `${document.getElementById('nonConcurrence').value}`,
                                 `${document.getElementById('propriete').value}`
                             ]
                         }
