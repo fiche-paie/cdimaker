@@ -352,14 +352,14 @@
                     yPos += 15;
                     
                     // Encadrés
-                    const boxHeight = 38;
-                    const boxWidth = (contentWidth - 20) / 2;
+                    const boxHeight = 32;
+                    const boxWidth = (contentWidth - 9) / 2; // Ajustement pour espacement symétrique
                     
-                    // Entreprise
+                    // Entreprise (gauche)
                     doc.setFillColor(255, 255, 255);
-                    doc.roundedRect(margin + 5, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3, 'F');
                     doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
-                    doc.roundedRect(margin + 5, yPos, boxWidth, boxHeight, 3, 3);
+                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3);
                     
                     doc.setFontSize(9);
                     doc.setTextColor(rgb[0], rgb[1], rgb[2]);
@@ -373,23 +373,23 @@
                     doc.text(`Représenté par: ${document.getElementById('representant').value}`, margin + 10, yPos + 24);
                     doc.text(`Fonction: ${document.getElementById('fonctionRepresentant').value}`, margin + 10, yPos + 28);
                     
-                    // Salarié
+                    // Salarié (droite) - CORRECTION ICI
                     doc.setFillColor(255, 255, 255);
-                    doc.roundedRect(margin + 10 + boxWidth, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    doc.roundedRect(margin + 5 + boxWidth, yPos, boxWidth, boxHeight, 3, 3, 'F');
                     doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
-                    doc.roundedRect(margin + 10 + boxWidth, yPos, boxWidth, boxHeight, 3, 3);
+                    doc.roundedRect(margin + 5 + boxWidth, yPos, boxWidth, boxHeight, 3, 3);
                     
                     doc.setFontSize(9);
                     doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-                    doc.text("SALARIÉ", margin + 15 + boxWidth, yPos + 7);
+                    doc.text("SALARIÉ", margin + 10 + boxWidth, yPos + 7);
                     
                     doc.setFontSize(8);
                     doc.setTextColor(0, 0, 0);
-                    doc.text(document.getElementById('salarieNom').value, margin + 15 + boxWidth, yPos + 12);
-                    doc.text(document.getElementById('salarieAdresse').value, margin + 15 + boxWidth, yPos + 16);
-                    doc.text(`Né(e) le: ${document.getElementById('dateNaissance').value}`, margin + 15 + boxWidth, yPos + 20);
-                    doc.text(`Lieu: ${document.getElementById('lieuNaissance').value}`, margin + 15 + boxWidth, yPos + 24);
-                    doc.text(`N° SS: ${document.getElementById('numeroSecu').value}`, margin + 15 + boxWidth, yPos + 28);
+                    doc.text(document.getElementById('salarieNom').value, margin + 10 + boxWidth, yPos + 12);
+                    doc.text(document.getElementById('salarieAdresse').value, margin + 10 + boxWidth, yPos + 16);
+                    doc.text(`Né(e) le: ${document.getElementById('dateNaissance').value}`, margin + 10 + boxWidth, yPos + 20);
+                    doc.text(`Lieu: ${document.getElementById('lieuNaissance').value}`, margin + 10 + boxWidth, yPos + 24);
+                    doc.text(`N° SS: ${document.getElementById('numeroSecu').value}`, margin + 10 + boxWidth, yPos + 28);
                     
                     yPos += boxHeight + 12;
                     
