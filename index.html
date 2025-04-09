@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur Contrat CDI</title>
+    <style>
+        :root {
+            --primary-color: #2b6cb0;
+            --secondary-color: #4299e1;
+            --light-bg: #ebf8ff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .info-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .info-box {
+            background-color: var(--light-bg);
+            border-radius: 4px;
+            padding: 6px;
+            border: 1px solid var(--secondary-color);
+        }
+        .info-box h2 {
+            color: var(--primary-color);
+            font-size: 11px;
+            margin: 0 0 6px 0;
+            padding-bottom: 2px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .form-group {
+            margin-bottom: 6px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 11px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 50px;
+            resize: vertical;
+        }
+        .color-picker {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 3px;
+            font-size: 13px;
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Générateur de Contrat CDI</h1>
+        
+        <div class="info-boxes">
+            <div class="info-box">
+                <h2>ENTREPRISE</h2>
+                <input type="text" id="entrepriseNom" value="EXPERT COMPTABLE ASSOCIES">
+                <input type="text" id="entrepriseAdresse" value="12 AVENUE DE L'OPÉRA, 75001 PARIS">
+                <input type="text" id="entrepriseSiret" value="12345678900012">
+                <input type="text" id="representant" value="M. PIERRE DUBOIS">
+                <input type="text" id="fonctionRepresentant" value="GÉRANT">
+            </div>
+            
+            <div class="info-box">
+                <h2>SALARIÉ</h2>
+                <input type="text" id="salarieNom" value="MARIE DURAND">
+                <input type="text" id="salarieAdresse" value="5 RUE DU COMMERCE, 75015 PARIS">
+                <input type="text" id="dateNaissance" value="15/05/1990">
+                <input type="text" id="lieuNaissance" value="PARIS">
+                <input type="text" id="numeroSecu" value="2 90 05 15 123 456 78">
+            </div>
+        </div>
+        
+        <input type="text" id="poste" value="COMPTABLE">
+        <input type="text" id="categorie" value="CADRE">
+        <input type="text" id="coefficient" value="210">
+        <input type="text" id="salaire" value="3200.00 €">
+        <input type="text" id="dateEntree" value="01/06/2025">
+        <input type="text" id="periodeEssai" value="3 mois renouvelable 1 fois">
+        <textarea id="horaires">Temps plein - 35h/semaine. Lundi au vendredi, 9h-12h30 et 13h30-17h30.</textarea>
+        <textarea id="lieuTravail">Siège social. Déplacements occasionnels possibles.</textarea>
+        <textarea id="nonConcurrence">Le salarié s'engage à ne pas exercer d'activité concurrente pendant 12 mois après la fin du contrat, moyennant une contrepartie financière équivalente à 30% du salaire brut mensuel.</textarea>
+        <textarea id="propriete">Toutes les créations réalisées dans le cadre des fonctions sont la propriété exclusive de l'entreprise.</textarea>
+        
+        <div class="color-picker">
+            <label>Couleur :</label>
+            <input type="color" id="couleur" value="#2b6cb0">
+        </div>
+        
+        <button id="btnGenerer">Générer le Contrat</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const { jsPDF } = window.jspdf;
+            
+            document.getElementById('btnGenerer').addEventListener('click', genererContrat);
+            
+            function genererContrat() {
+                try {
+                    const doc = new jsPDF();
+                    const couleur = document.getElementById('couleur').value;
+                    const rgb = hexToRgb(couleur);
+                    
+                    // Marges optimisées
+                    const margin = 8;
+                    const pageWidth = doc.internal.pageSize.getWidth();
+                    const contentWidth = pageWidth - (margin * 2);
+                    let yPos = margin;
+                    
+                    // Cadre principal
+                    doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
+                    doc.setLineWidth(0.3);
+                    doc.roundedRect(margin, margin, contentWidth, doc.internal.pageSize.getHeight() - (margin * 2), 3, 3);
+                    
+                    // Titre
+                    doc.setFontSize(14);
+                    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+                    doc.text("CONTRAT DE TRAVAIL À DURÉE INDÉTERMINÉE", pageWidth / 2, yPos + 10, { align: 'center' });
+                    yPos += 15;
+                    
+                    // Encadrés
+                    const boxHeight = 38;
+                    const boxWidth = (contentWidth - 10) / 2;
+                    
+                    // Entreprise (gauche)
+                    doc.setFillColor(235, 248, 255);
+                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
+                    doc.roundedRect(margin + 3, yPos, boxWidth, boxHeight, 3, 3);
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+                    doc.text("ENTREPRISE", margin + 8, yPos + 7);
+                    
+                    doc.setFontSize(8);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(document.getElementById('entrepriseNom').value, margin + 8, yPos + 12);
+                    doc.text(document.getElementById('entrepriseAdresse').value, margin + 8, yPos + 16);
+                    doc.text(`SIRET: ${document.getElementById('entrepriseSiret').value}`, margin + 8, yPos + 20);
+                    doc.text(`Représenté par: ${document.getElementById('representant').value}`, margin + 8, yPos + 24);
+                    doc.text(`Fonction: ${document.getElementById('fonctionRepresentant').value}`, margin + 8, yPos + 28);
+                    
+                    // Salarié (droite)
+                    doc.setFillColor(235, 248, 255);
+                    doc.roundedRect(margin + 8 + boxWidth, yPos, boxWidth, boxHeight, 3, 3, 'F');
+                    doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
+                    doc.roundedRect(margin + 8 + boxWidth, yPos, boxWidth, boxHeight, 3, 3);
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+                    doc.text("SALARIÉ", margin + 13 + boxWidth, yPos + 7);
+                    
+                    doc.setFontSize(8);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(document.getElementById('salarieNom').value, margin + 13 + boxWidth, yPos + 12);
+                    doc.text(document.getElementById('salarieAdresse').value, margin + 13 + boxWidth, yPos + 16);
+                    doc.text(`Né(e) le: ${document.getElementById('dateNaissance').value}`, margin + 13 + boxWidth, yPos + 20);
+                    doc.text(`Lieu: ${document.getElementById('lieuNaissance').value}`, margin + 13 + boxWidth, yPos + 24);
+                    doc.text(`N° SS: ${document.getElementById('numeroSecu').value}`, margin + 13 + boxWidth, yPos + 28);
+                    
+                    yPos += boxHeight + 12;
+                    
+                    // Articles avec mise en page améliorée
+                    const articles = [
+                        {
+                            titre: "ARTICLE 1 - POSTE",
+                            contenu: [
+                                `Entre les soussignés :`,
+                                `- L'entreprise ${document.getElementById('entrepriseNom').value}, représentée par ${document.getElementById('representant').value}, ${document.getElementById('fonctionRepresentant').value}`,
+                                `- Et ${document.getElementById('salarieNom').value}`,
+                                `Il a été convenu ce qui suit :`,
+                                `Monsieur/Madame ${document.getElementById('salarieNom').value} est engagé(e) en qualité de ${document.getElementById('poste').value} (${document.getElementById('categorie').value}, coefficient ${document.getElementById('coefficient').value}).`,
+                                `Le salarié exercera ses fonctions avec toute la conscience professionnelle requise et se conformera aux directives qui lui seront données.`
+                            ]
+                        },
+                        {
+                            titre: "ARTICLE 2 - RÉMUNÉRATION",
+                            contenu: [
+                                `Le salarié percevra une rémunération brute mensuelle de :`,
+                                `${document.getElementById('salaire').value}`,
+                                `Cette rémunération pourra être révisée annuellement en fonction :`,
+                                `- De l'évolution de la situation économique de l'entreprise`,
+                                `- Des performances du salarié`,
+                                `- Des dispositions de la convention collective applicable`
+                            ]
+                        },
+                        {
+                            titre: "ARTICLE 3 - DURÉE ET PÉRIODE D'ESSAI",
+                            contenu: [
+                                `Le présent contrat est conclu pour une durée indéterminée à compter du :`,
+                                `${document.getElementById('dateEntree').value}`,
+                                `Période d'essai : ${document.getElementById('periodeEssai').value}`,
+                                `Pendant cette période, chaque partie pourra rompre le contrat :`,
+                                `- Sans préavis`,
+                                `- Sans indemnité`,
+                                `Dans le respect des dispositions légales en vigueur`
+                            ]
+                        },
+                        {
+                            titre: "ARTICLE 4 - HORAIRES ET LIEU",
+                            contenu: [
+                                `Horaires de travail :`,
+                                `${document.getElementById('horaires').value}`,
+                                `Lieu de travail principal :`,
+                                `${document.getElementById('lieuTravail').value}`,
+                                `Des déplacements ponctuels pourront être demandés dans le cadre des fonctions.`
+                            ]
+                        },
+                        {
+                            titre: "ARTICLE 5 - CLAUSES SPÉCIFIQUES",
+                                   contenu: [
+
+                         `${document.getElementById('nonConcurrence').value}`,
+                               
+                                `${document.getElementById('propriete').value}`
+                            ]
+                        }
+                    ];
+                    
+                    // Ajout des articles avec mise en page aérée
+                    articles.forEach(article => {
+                        doc.setFontSize(10);
+                        doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+                        doc.text(article.titre, margin + 5, yPos);
+                        yPos += 6;
+                        
+                        doc.setFontSize(8);
+                        doc.setTextColor(0, 0, 0);
+                        article.contenu.forEach((paragraphe, index) => {
+                            const lines = doc.splitTextToSize(paragraphe, contentWidth - 10);
+                            lines.forEach(line => {
+                                if (yPos > 270) return;
+                                // Mise en forme spéciale pour les listes
+                                const isListItem = paragraphe.startsWith("- ");
+                                const xPos = isListItem ? margin + 8 : margin + 5;
+                                
+                                doc.text(line, xPos, yPos);
+                                yPos += 4;
+                            });
+                            // Espacement supplémentaire après certains paragraphes
+                            if (index % 2 === 0) yPos += 2;
+                        });
+                        yPos += 6;
+                    });
+                    
+                    // Signature centrée
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 100, 100);
+                    doc.text("Fait à ___________________________________, le ___________________________________", 
+                            pageWidth / 2, 265, { align: 'center' });
+                    
+                    doc.text("Pour l'entreprise", margin + 40, 275);
+                    doc.text("Le salarié", pageWidth - margin - 40, 275, { align: 'right' });
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text(document.getElementById('representant').value, margin + 40, 280);
+                    doc.text(document.getElementById('salarieNom').value, pageWidth - margin - 40, 280, { align: 'right' });
+                    
+                    doc.text("En double exemplaire", pageWidth / 2, 285, { align: 'center' });
+                    
+                    doc.save(`Contrat_CDI_${document.getElementById('salarieNom').value.replace(/\s+/g, '_')}.pdf`);
+                    
+                } catch (error) {
+                    console.error("Erreur:", error);
+                    alert("Erreur de génération");
+                }
+            }
+            
+            function hexToRgb(hex) {
+                hex = hex.replace('#', '');
+                return [
+                    parseInt(hex.substring(0, 2), 16),
+                    parseInt(hex.substring(2, 4), 16),
+                    parseInt(hex.substring(4, 6), 16)
+                ];
+            }
+        });
+    </script>
+</body>
+</html>
